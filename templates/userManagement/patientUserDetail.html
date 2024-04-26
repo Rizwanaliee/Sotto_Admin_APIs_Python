@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+{% block title %}Patient User{% endblock title %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Patient User Details
+        </h1>
+    </section>
+    <!-- /.content -->
+    <section class="content" id="dashboard-2">
+
+        <div class="box box-widget widget-user">
+            <div class="box-header">
+                
+            </div>
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-aqua-active">
+            </div>
+            <div class="widget-user-image">
+                <img {% if not User.profileImage%} src="/static/assets/dist/img/no_user.png" alt="User Avatar" {% else%} src = "{{User.profileImage}}" {% endif%}>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 details">
+                    <h3><strong>{{User.fullName}}</strong></h3>
+                    <h5>Date of Birth:{{User.dateOfBirth}}</h5>
+                </div>
+            </div>
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3><strong>About me</strong></h5>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><img src="/static/assets/dist/img/profile-icon-1.png"> Mobile Number:{{User.mobileNo}}</p>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        <p><img src="/static/assets/dist/img/profile-icon-2.png"> Email:{{User.email}}</p>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        <p><img src="/static/assets/dist/img/profile-icon-3.png"> Gender: {% if User.genderType == 1%} He/Him {% elif User.genderType == 2%} She/Her {% elif User.genderType == 3%} They/Them{% else%}NA {% endif%}</p>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        <p><img src="/static/assets/dist/img/profile-icon-4.png"> ZipCode:{{User.zipCode}}</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock content%}

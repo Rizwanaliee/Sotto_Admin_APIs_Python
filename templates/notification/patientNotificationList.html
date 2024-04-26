@@ -1,0 +1,84 @@
+{% extends 'base/base.html' %}
+{% block title %}Notifications{% endblock title %}
+{% block content %}
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Patient Notifications
+    </h1>
+  </section>
+  {% if messages %}
+    {% for message in messages%}
+    <div class="alert alert-{{message.tags}} text-center" id='hidemessage' role="alert">
+        {{message}}
+    </div>
+    {% endfor %}
+  {% endif %}
+  <!-- /.content -->
+  <section class="content" id="dashboard-2">
+    <div class="box">
+      <div class="box-header">
+        <span class="refresh"><button class="btn" onclick="location.href='{% url 'patient-noti-list'%}'"><img src="/static/assets/dist/img/refresh.png"></button></span>
+        <form method="POST" action="{% url 'seach-noti-patient'%}">
+          {% csrf_token %}
+          <input type="text" id="myInput" onkeyup="myFunction()" name="q" {% if InputText%} value="{{InputText}}" {% endif%} placeholder="Search Patients" title="Type in a name">
+        </form> 
+        <a href="{% url 'push-notification-patient'%}" class="btn btn-1" type="button"><span
+            class="glyphicon glyphicon-plus"></span> Push Notification</a>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body no-padding">
+        <table class="table table-condensed">
+          <tr>
+            <th>Id</th>
+            <th>Patient Name</th>
+            <th>Message</th>
+            <th>Sent at</th>
+          </tr>
+          {% if PatientNotifications%}
+            {% for notification in PatientNotifications%}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{notification.userId.fullName}}</td>
+                <td>{{notification.message}}</td>
+                <td>{{notification.createdAt}}</td>
+              </tr>
+            {% endfor%}
+          {% else%}
+            <tr>
+              <td>Notifications not available</td>
+            </tr>
+          {% endif%}
+
+        </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <div class="box-footer">
+      <div class="box-tools" style="margin-left: 45%;">
+        <ul class="pagination pagination-sm inline">
+          {% if page_obj.has_previous %}
+          <li><a href="?page=1">&laquo; First</a></li>
+          <li><a href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+          {% endif %}&nbsp
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+          {% if page_obj.has_next %}
+          <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+          <li><a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    <!-- /.box -->
+  </section>
+
+</div>
+{% endblock content%}
+{% block script%}
+  <script>
+    setTimeout(function(){
+      $('#hidemessage').hide()
+    }, 4000)
+  </script>
+{% endblock script%}

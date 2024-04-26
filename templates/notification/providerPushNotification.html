@@ -1,0 +1,142 @@
+{% extends 'base/base.html' %}
+{% block title %}Notifications{% endblock title %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Push Notifications
+        </h1>
+    </section>
+    <!-- /.content -->
+    <section class="content" id="dashboard-2">
+        <div class="box">
+            {% if messages %}
+                {% for message in messages%}
+                <div class="alert alert-{{message.tags}} text-center" id='hidemessage' role="alert">
+                    {{message}}
+                </div>
+                {% endfor %}
+            {% endif %}
+            <!-- /.box-header -->
+            <form id="cust_send_notify_form" method="POST" style="display: block;" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label class="label-1">
+                    <input type="radio" name="rradio" id="select-user" value="select-provider" checked> Select Coach
+                </label>
+                <label class="label-1">
+                    <input type="radio" name="rradio" id="all-radio" value="allcustomer"> All Coach
+                </label>
+                <label class="label-1">
+                    <input type="radio" name="rradio" id="android-radio" value="androidcustomer"> All Android Coach
+                </label>
+                <label class="label-1">
+                    <input type="radio" name="rradio" id="ios-radio" value="ioscustomer"> All IOS Coach
+                </label>
+
+                <div class="form-a">
+
+                    <div class="form-group">
+                        <div class="block" id="testtt">
+                            <label>Select Coach</label>
+                            <select id="users_item" multiple="multiple" name="users_ids[]" required>
+                                {% for user in providers%}
+                                <option value="{{user.id}}">{{user.fullName }}({{user.email}})</option>
+                                {% endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="width: 58%;">
+                        <label>Title</label>
+                        <input type="text" name="title" class="form-control" placeholder="Type title...">
+                    </div>
+                    <div class="form-group" style="width: 58%;">
+                        <label>Message</label>
+                        <textarea class="form-control" name="message" rows="3"
+                            placeholder="Type message here..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Image </label>(Optional)
+                        <div class="file-upload">
+
+                            <div class="image-upload-wrap">
+                                <input class="file-upload-input" type='file' name="notiImage" onchange="readURL(this);"
+                                    accept="image/*" />
+                                <div class="drag-text">
+                                    <p><img src="/static/assets/dist/img/upload.png"></p>
+                                    <h3>Click here to upload image</h3>
+                                </div>
+                            </div>
+                            <div class="file-upload-content">
+                                <img class="file-upload-image" src="#" alt="your image" />
+                                <div class="image-title-wrap">
+                                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span
+                                            class="image-title">Uploaded Image</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-1">Send</button>
+
+                </div>
+            </form>
+        </div>
+        <!-- /.box -->
+    </section>
+
+</div>
+{% endblock content%}
+{% block script%}
+<script>
+    setTimeout(function(){
+        $('#hidemessage').hide()
+      }, 4000)
+    $('#users_item').fSelect();
+    $(".fs-label").text("Select Coach");
+
+    $('#all-radio').on('click', function () {
+        $("#testtt").hide()
+    });
+    $('#android-radio').on('click', function () {
+        $("#testtt").hide()
+    });
+    $('#ios-radio').on('click', function () {
+        $("#testtt").hide()
+    });
+    $('#select-user').on('click', function () {
+        $("#testtt").show()
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.image-upload-wrap').hide();
+
+                $('.file-upload-image').attr('src', e.target.result);
+                $('.file-upload-content').show();
+
+                $('.image-title').html(input.files[0].name);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+
+        } else {
+            removeUpload();
+        }
+    }
+
+    function removeUpload() {
+        $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+        $('.file-upload-content').hide();
+        $('.image-upload-wrap').show();
+    }
+    $('.image-upload-wrap').bind('dragover', function () {
+        $('.image-upload-wrap').addClass('image-dropping');
+    });
+    $('.image-upload-wrap').bind('dragleave', function () {
+        $('.image-upload-wrap').removeClass('image-dropping');
+    });
+</script>
+{% endblock script%}

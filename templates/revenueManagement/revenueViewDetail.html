@@ -1,0 +1,89 @@
+{% extends 'base/base.html' %}
+{% block title %}Revenue{% endblock title %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Revenue
+        </h1>
+    </section>
+    <!-- /.content -->
+    <section class="content" id="dashboard-2">
+        <div class="box">
+            <div class="box-header">
+                <span class="refresh"><button class="btn" onclick="location.href='{% url 'revenue-view-detail' provider.id %}'"><img src="/static/assets/dist/img/refresh.png"></button></span>
+                <form method="POST" action="{% url 'transaction-search-patient' provider.id%}">
+                    {% csrf_token %}
+                    <input type="text" id="myInput" autocomplete="off" onkeyup="myFunction()" name="q" {% if InputText%} value="{{InputText}}" {% endif%} placeholder="Search Patients" title="Type in a name">
+                </form> 
+                <div class="col-md-4" style="width:43.333333%">
+                    <div class="small-box-1 bg-white">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="/static/assets/dist/img/4.png">
+                            </div>
+                            <div class="inner">
+                                <div class="row">
+                                    <div class="col-md-5" style="padding-right:0px;">
+                                        <p>Total Revenue of <b style="color:green">{{provider.fullName}}</b></p>
+                                    </div>
+                                    <div class="col-md-2" style="padding-left:0px;">
+                                        <p> <span style="font-size:20px ;">${{total_ammount}}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+                <table class="table table-condensed">
+                    <tr>
+                        <th>Id</th>
+                        <th>Patient Name</th>
+                        <th>Mobile Number</th>
+                        <th>Gender</th>
+                        <th>Cons. ID</th>
+                        <th>Cons. Fee</th>
+                    </tr>
+                    {% if providers_trans%}
+                        {% for trans in providers_trans%}
+                            <tr>
+                                <td height="60">{{forloop.counter}}</td>
+                                <td>{{trans.consultantiontId.userId.fullName}}</td>
+                                <td>{{trans.consultantiontId.userId.mobileNo}}</td>
+                                <td>{% if trans.consultantiontId.userId.genderType == 1%} He/Him {% elif trans.consultantiontId.userId.genderType == 2%} She/Her {% elif trans.consultantiontId.userId.genderType == 3%} They/Them {% else%}NA {% endif%} </td>
+                                <td><strong>{{trans.consultantiontId.id}}</strong></td>
+                                <td><strong>$ {{trans.amount}}</stro< /td>
+                            </tr>
+                        {% endfor%}
+                    {% else%}
+                        <tr><td>Transactions details not available</td></tr>
+                    {% endif%}
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+        <div class="box-footer">
+            <div class="box-tools" style="margin-left: 45%;">
+              <ul class="pagination pagination-sm inline">
+                {% if page_obj.has_previous %}
+                  <li><a href="?page=1" >&laquo; First</a></li>
+                  <li><a href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}&nbsp    
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                {% if page_obj.has_next %}
+                  <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                  <li><a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a></li>
+                {% endif %}
+              </ul>
+            </div>
+        </div>
+    </section>
+
+
+</div>
+{% endblock content%}

@@ -1,0 +1,57 @@
+{% extends 'base/base.html' %}
+{% block title %}Settings{% endblock title %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Price And Fee Setting
+        </h1>
+    </section>
+    <!-- /.content -->
+    <section class="content" id="dashboard-2">
+        <div class="box">
+            {% if messages %}
+                {% for message in messages%}
+                <div class="alert alert-{{message.tags}} text-center" id='hidemessage' role="alert">
+                    {{message}}
+                </div>
+                {% endfor %}
+            {% endif %}
+            <!-- /.box-header -->
+            <form id="setting-form" method="POST" style="display: block;" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-a">
+                    <div class="form-group" >
+                        <label>Default Coach Fee($)</label>
+                        <input type="number" name="providerFee" min=0 class="form-control" placeholder="Fee" value={{settingValues.fee}}>
+                    </div>
+                    <br>
+                    <hr>
+                    <div class="form-group">
+                        <label>Minimum Patient Price($)</label>
+                        <input type="number" onkeypress=" return isNumber(event)" min=0 class="form-control" name="patinetMinPrice"
+                            placeholder="Min Price" value={{settingValues.minPrice}}></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Maximum Patient Price($)</label>
+                        <input type="number" class="form-control" name="patientMaxPrice"
+                            placeholder="Max Price" min=0 value={{settingValues.maxPrice}}></input>
+                    </div>
+                    <button type="submit" class="btn btn-1">Save</button>
+
+                </div>
+            </form>
+        </div>
+        <!-- /.box -->
+    </section>
+
+</div>
+{% endblock content%}
+{% block script%}
+<script>
+    setTimeout(function(){
+        $('#hidemessage').hide()
+      }, 4000)
+</script>
+{% endblock script%}

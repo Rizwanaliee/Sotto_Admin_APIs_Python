@@ -1,0 +1,173 @@
+{% extends 'base/base.html' %}
+{% block title %}Dashboard{% endblock title %}
+{% block content %}
+{% load rizwan_dev_tags %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Dashboard
+      </h1>
+      {% comment %} <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+      </ol> {% endcomment %}
+    </section>
+
+    <!-- Main content -->
+    <section class="content" id="dashboard-1">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="row">
+              <div class="col-md-4">
+                <img src="/static/assets/dist/img/1.png">
+              </div>
+              <div class="inner">
+                <div class="col-md-8">
+                  <h4>{{total_consulltation}}+</h4>
+                  <p>Total Consultations</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="row">
+              <div class="col-md-4">
+                <img src="/static/assets/dist/img/2.png">
+              </div>
+              <div class="inner">
+                <div class="col-md-8">
+                  <h4>{{total_provider}}+</h4>
+                  <p>Coach Registrations</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="row">
+              <div class="col-md-4">
+                <img src="/static/assets/dist/img/3.png">
+              </div>
+              <div class="inner">
+                <div class="col-md-8">
+                  <h4>{{total_patient}}+</h4>
+                  <p>Patient Registrations</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="row">
+              <div class="col-md-4">
+                <img src="/static/assets/dist/img/4.png">
+              </div>
+              <div class="inner">
+                <div class="col-md-8">
+                  <h4>$ {{total_revenue}}</h4>
+                  <p>Total Revenue</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+    <section class="content" id="dashboard-2">
+      <div class="box">
+        <div class="box-header"> <span class="view-txt"><a href="{% url 'provider-usr-requests'%}">View All</a></span>
+          <h3 class="box-title">Coach Users Request </h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <table class="table table-condensed" id="provider-user-request">
+            <tr>
+              <th>Id</th>
+              <th class="license">Coach Name</th>
+              <th class="license">Email</th>
+              <th class="license">Mobile Number</th>
+              {% comment %} <th class="license">License Type</th> {% endcomment %}
+              <th style="text-align:center">Actions</th>
+            </tr>
+            {% if providersUsers%}
+                {% for user in providersUsers%}
+                    <tr>
+                    <td>{{user.id}}</td>
+                    <td class="license">{{user.fullName}}</td>
+                    <td class="license">{{user.email}}</td>
+                    <td class="license">{{user.mobileNo}}</td>
+                    {% comment %} <td class="license"><span class="blue-txt">{% licenseTypeDetails user.id as addtionalData%}
+                      {{addtionalData.licenseTypeId.licenseTypeName}}</span></td>  {% endcomment %}
+                    <td class="button-section">
+                      <a href="{% url 'change-status-user' 3 user.id %}" class="btn btn-reject">Reject</a>
+                      <span class="btn-2"><a href="{% url 'change-status-user' 2 user.id %}" class="btn btn-accept">Accept</a></span> 
+                      <span class="btn-3"><a href="{% url 'provider-detail-page'  user.id%}" class="btn btn-view">View Details</a></span></td>
+                    </tr>
+                {% endfor%}
+            {% else%}
+                <tr><span>Coach Users not available</span></tr>
+            {% endif%}
+   
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </section>
+
+    <section class="content" id="dashboard-3">
+      <div class="box">
+        <div class="box-header"> <span class="view-txt"><a href="{% url 'patient-users'%}">View All</a></span>
+          <h3 class="box-title">Patient User Management</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <table id="patient-user-management" class="table table-condensed">
+            <tr>
+              <th>Id</th>
+              <th class="license">Patient Name</th>
+              <th class="license">Email</th>
+              <th class="license">Mobile Number</th>
+              <th class="license">Actions</th>
+            </tr>
+            {% if patientUsers%}
+              {% for user in patientUsers%}
+                  <tr>
+                  <td>{{user.id}}</td>
+                  <td class="license">{{user.fullName}}</td>
+                  <td class="license">{{user.email}}</td>
+                  <td class="license">{{user.mobileNo}}</td>
+                  <td class="button-section">
+                    <span class="btn-3"><a href = "{% url 'patient-detail-page' user.id %}" class="btn btn-view">View Details</a></span></td>
+                  </tr>
+              {% endfor%}
+          {% else%}
+              <tr><span>Users not available</span></tr>
+          {% endif%}
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </section>
+  </div>
+
+{% endblock%}

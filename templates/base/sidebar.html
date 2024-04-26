@@ -1,0 +1,79 @@
+{% load static %}
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <li>
+        <a href="{% url 'admin-dashboard'%}" class="{% if request.path == "/admin-dashboard/" %} active-effect {% endif%}">
+          <i class="fa fa-fw fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="far fa-users"></i>&nbsp&nbsp
+          <span>Coach Users</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a href="{% url 'provider-usr-requests'%}" class="{% if request.path == "/provider-user-requests/" %} active-effect {% endif%}">
+            <i class="fal fa-user-friends"></i>&nbsp&nbsp <span>Coach Users Request</span></a>
+          </li>
+          <li>
+            <a href="{% url 'approved-users-provider'%}" class="{% if request.path == "/approved-providers/" %} active-effect {% endif%}">
+            <i class="fal fa-user-friends"></i>&nbsp&nbsp <span>Approved Coach Users</span></a>
+          </li>
+        </ul>
+      
+      </li>
+      <li>
+        <a href="{% url 'patient-users'%}" class="{% if request.path == "/patient-users/" %} active-effect {% endif%}">
+          <i class="far fa-users-medical"></i>&nbsp&nbsp  <span>Patient Users</span>
+        </a>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="far fa-bell"></i>&nbsp&nbsp
+          <span>Notifications</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a href="{% url 'provider-noti-list'%}" class="{% if request.path == "/notification/provider-notification-list/" %} active-effect {% endif%}">
+            <i class="far fa-bell"></i>&nbsp&nbsp <span>Coach Notifications</span></a>
+          </li>
+          <li>
+            <a href="{% url 'patient-noti-list'%}" class="{% if request.path == "/notification/patient-notification-list/" %} active-effect {% endif%}">
+            <i class="far fa-bell"></i>&nbsp&nbspPatient Notifications</a>
+          </li>
+        </ul>
+      
+      </li>
+      <li>
+        <a href="{% url 'providers-list-for-revenue'%}" class="{% if request.path == "/revenue/revenue-view-detail/" or request.path == "/revenue/providers/" %} active-effect {% endif%}">
+          <i class="far fa-dollar-sign"></i>&nbsp&nbsp  <span>Revenue</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'consultions-list'%}" class="{% if request.path == "/consultaion-list/" %} active-effect {% endif%}">
+          <i class="far fa-headset"></i>&nbsp&nbsp  <span>Consultations</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'price-fee-setting'%}" class="{% if request.path == "/price-and-fee-seetings/" %} active-effect {% endif%}">
+          <i class="far fa-dollar-sign"></i>&nbsp&nbsp  <span>Price/Fee Setting</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'banners-list'%}" class="{% if request.path == "/banner/banner-list/" %} active-effect {% endif%}">
+          <i class="far fa-image"></i>&nbsp&nbsp  <span>Banner Management</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+</aside>

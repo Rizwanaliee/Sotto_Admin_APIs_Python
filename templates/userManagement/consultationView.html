@@ -1,0 +1,72 @@
+{% extends 'base/base.html' %}
+{% block title %}Consulation{% endblock title %}
+{% block content %}
+{% load rizwan_dev_tags %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Consultation
+        </h1>
+    </section>
+    <!-- /.content -->
+    <section class="content" id="dashboard-2">
+        <div class="box">
+            <div class="box-header">
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Coach"
+                    title="Type in a name">
+
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+                <table class="table table-condensed">
+
+                    <tr>
+                        <th>Id</th>
+                        <th>Coach Name</th>
+                        <th>Mobile Number</th>
+                        <th>Gender</th>
+                        <th>Rejected Request</th>
+                        <th>Accepted Request</th>
+                    </tr>
+                    {% if providers%}
+                        {% for provider in providers %}
+                            <tr>
+                                <td height="60">{{forloop.counter}}</td>
+                                <td>{{provider.fullName}}</td>
+                                <td>{{provider.mobileNo}}</td>
+                                <td>{% if provider.genderType == 1%} He/Him {% elif provider.genderType == 2%} She/Her {% elif provider.genderType == 3%} They/Them{% else%}NA {% endif%} </td>
+                                {% consultationCount provider.id 7 as rejectedCount%}
+                                <td><strong>{{rejectedCount}}</strong></td>
+                                {% consultationCount2 provider.id 2 4 as acceptedCount%}
+                                <td><strong>{{acceptedCount}}</strong></td>
+                            </tr>
+                        {% endfor%}
+                    {% else%}
+                        <tr><td>No coach users available</td></tr>
+                    {% endif%}
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <div class="box-footer">
+            <div class="box-tools" style="margin-left: 45%;">
+              <ul class="pagination pagination-sm inline">
+                {% if page_obj.has_previous %}
+                  <li><a href="?page=1" >&laquo; First</a></li>
+                  <li><a href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}&nbsp
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                {% if page_obj.has_next %}
+                  <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                  <li><a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a></li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        <!-- /.box -->
+    </section>
+
+</div>
+
+{% endblock content%}
